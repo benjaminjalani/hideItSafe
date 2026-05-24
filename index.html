@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hideItSafe - Secure Data App</title>
+    <style>
+        :root[data-theme="light"] {
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --accent-bg: #f1f5f9;
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --accent-bg: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .theme-toggle {
+            background: var(--accent-bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .menu-grid {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .menu-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .menu-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .card-info h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .card-info p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .arrow {
+            font-size: 18px;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        footer {
+            width: 100%;
+            max-width: 600px;
+            margin-top: auto;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        footer p {
+            margin-bottom: 8px;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            margin: 0 8px;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>hideItSafe</h1>
+        <button id="mode-btn" class="theme-toggle" onclick="toggleTheme()">Switch to Dark Mode</button>
+    </header>
+    <br>
+    <div class="menu-grid">
+        <a href="encrypt-text.html" class="menu-card">
+            <div class="card-info">
+                <h3>Encrypt Secret Text</h3>
+                <p>Convert standard written messages into clean files.</p>
+            </div>
+            <div class="arrow">→</div>
+        </a>
+        <hr>
+        <a href="encrypt-image.html" class="menu-card">
+            <div class="card-info">
+                <h3>Encrypt Image File</h3>
+                <p>Convert photos directly into safe image blocks.</p>
+            </div>
+            <div class="arrow">→</div>
+        </a>
+        <hr>
+        <a href="decrypt.html" class="menu-card">
+            <div class="card-info">
+                <h3>Decrypt and Restore Data</h3>
+                <p>Read your downloaded blocks to view originals.</p>
+            </div>
+            <div class="arrow">→</div>
+        </a>
+    </div>
+
+    <footer>
+        <p>© 2026 hideItSafe. All rights reserved.</p>
+        <div class="links">
+            <a href="https://github.com/benjaminjalani" target="_blank">GitHub</a>
+            <a href="https://www.benjaminjalani.in" target="_blank">Visit Devoloper</a>
+        </div>
+    </footer>
+
+    <script>
+        function updateToggleButton(theme) {
+            const btn = document.getElementById('mode-btn');
+            if (theme === 'dark') {
+                btn.textContent = 'Light Mode';
+            } else {
+                btn.textContent = 'Dark Mode';
+            }
+        }
+
+        function toggleTheme() {
+            const root = document.documentElement;
+            const currentTheme = root.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            root.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateToggleButton(newTheme);
+        }
+
+        // Apply saved preference immediately on load
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateToggleButton(savedTheme);
+    </script>
+</body>
+</html>
